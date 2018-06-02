@@ -11,8 +11,8 @@ public class FileEndpoint {
     @Autowired
     private FileService fileService;
 
-    @RequestMapping(value = "/webservice/{path}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void indexFilesUnderPath(@PathVariable("path") String path) throws Exception {
+    @RequestMapping(value = "/webservice", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void indexFilesUnderPath(@RequestParam("path") String path) throws Exception {
         fileService.indexFilesUnderPath(path);
     }
 }
