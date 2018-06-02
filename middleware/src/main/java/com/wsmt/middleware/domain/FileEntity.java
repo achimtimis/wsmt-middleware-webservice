@@ -1,5 +1,6 @@
 package com.wsmt.middleware.domain;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.Id;
 
 @Data
 @Entity(name = "file")
+@Builder
 public class FileEntity {
 
     @Id
@@ -17,7 +19,7 @@ public class FileEntity {
     private String path;
     private String name;
     private String fileExtension;
-    private String MD5_hash;
-    private String SHA1_hash;
+    private String md5Hash;
+    private String sha1Hash;
     private String fileSize;
 }
