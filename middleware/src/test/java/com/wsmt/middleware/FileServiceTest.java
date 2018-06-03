@@ -33,7 +33,8 @@ public class FileServiceTest {
         FileEntity fileEntity1 = FileEntity.builder().name("x").fileExtension("txt").fileSize("12").md5Hash("xxx").sha1Hash("xxx").build();
         FileEntity fileEntity2 = FileEntity.builder().name("y").fileExtension("txt").fileSize("13").md5Hash("yyy").sha1Hash("yyy").build();
         FileEntity fileEntity3 = FileEntity.builder().name("zx").fileExtension("txt").fileSize("13").md5Hash("zx").sha1Hash("zx").build();
-        files = Arrays.asList(fileEntity1, fileEntity2, fileEntity3);
+        FileEntity fileEntity4 = FileEntity.builder().path("D:\\github\\wsmt-middleware\\middleware\\src\\test\\resources").name("file1").fileExtension("txt").fileSize("12").md5Hash("file1").sha1Hash("file1").build();
+        files = Arrays.asList(fileEntity1, fileEntity2, fileEntity3, fileEntity4);
         fileRepositoryDao.saveAll(files);
         }
 
@@ -50,6 +51,7 @@ public class FileServiceTest {
         Assert.assertEquals(1, fileService.filterFileInfo("y", "y", "yyy", "").size());
         Assert.assertEquals(0, fileService.filterFileInfo("zx", "nonexisting", "", "").size());
         Assert.assertEquals(1, fileService.filterFileInfo("zx", "zx", "zx", "").size());
-        Assert.assertEquals(3, fileService.filterFileInfo("", "", "", "").size());
+        Assert.assertEquals(4, fileService.filterFileInfo("", "", "", "").size());
+        Assert.assertEquals(1, fileService.filterFileInfo("", "", "", "49").size());
     }
 }
