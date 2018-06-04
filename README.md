@@ -31,3 +31,4 @@ Middleware
 1. The model file must implement serializable and be identical between server and client
 2. Since java 9, java.corba is not in the default modules. Must add --add-modules java.corba to the program arguments
 3. ?? add also -Djava.rmi.server.useCodebaseOnly=false.
+4. run start rmiregistry before all
