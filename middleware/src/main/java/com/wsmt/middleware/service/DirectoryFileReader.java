@@ -39,7 +39,8 @@ public class DirectoryFileReader implements IDirectoryFileReader {
     }
 
     private void addFileInformation(File fileEntry) {
-        FileInformation fileInfo = FileInformation.builder().build();
+//        FileInformation fileInfo = FileInformation.builder().build();
+        FileInformation fileInfo = new FileInformation();
         fileInfo.setName(fileEntry.getName().substring(0, fileEntry.getName().lastIndexOf(".")));
         fileInfo.setFileExtension(fileEntry.getName().substring(fileEntry.getName().lastIndexOf(".") + 1,
                 fileEntry.getName().length()));

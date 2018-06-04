@@ -13,7 +13,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class FileService {
+public class FileService implements IFileService{
 
     @Autowired
     private IFileRepositoryDao fileRepository;
@@ -48,8 +48,16 @@ public class FileService {
     }
 
     private FileInformation mapEntityToModel(FileEntity t) {
-        return FileInformation.builder().name(t.getName()).fileExtension(t.getFileExtension())
-                .fileSize(t.getFileSize()).MD5_hash(t.getMd5Hash()).SHA1_hash(t.getSha1Hash()).path(t.getPath()).build();
+            FileInformation fileInformation = new FileInformation();
+            fileInformation.setName(t.getName());
+            fileInformation.setSHA1_hash(t.getSha1Hash());
+            fileInformation.setMD5_hash(t.getMd5Hash());
+            fileInformation.setPath(t.getPath());
+            fileInformation.setFileSize(t.getFileSize());
+            fileInformation.setFileExtension(t.getFileExtension());
+            return fileInformation;
+//        return FileInformation.builder().name(t.getName()).fileExtension(t.getFileExtension())
+//                .fileSize(t.getFileSize()).MD5_hash(t.getMd5Hash()).SHA1_hash(t.getSha1Hash()).path(t.getPath()).build();
 
     }
 
