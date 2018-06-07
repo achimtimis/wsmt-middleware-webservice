@@ -8,12 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.rmi.PortableRemoteObject;
 import java.io.File;
+import java.rmi.RemoteException;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class FileService implements IFileService{
+public class FileService extends PortableRemoteObject implements IFileService {
 
     @Autowired
     private IFileRepositoryDao fileRepository;
@@ -21,8 +23,12 @@ public class FileService implements IFileService{
     @Autowired
     private IDirectoryFileReader directoryFileReader;
 
+    public FileService() throws RemoteException {
+        super();
+    }
 
-    public void indexFilesUnderPath(String path) throws Exception {
+
+    public void indexFilesUnderPath(String path) throws RemoteException, Exception {
         String updatedPath = path.replace("/", "\\");
         checkFilePathExists(updatedPath); //fail early
         List<FileInformation> fileInformationList = directoryFileReader.readFilesUnderRoot(updatedPath);
@@ -48,24 +54,24 @@ public class FileService implements IFileService{
     }
 
     private FileInformation mapEntityToModel(FileEntity t) {
-            FileInformation fileInformation = new FileInformation();
-            fileInformation.setName(t.getName());
-            fileInformation.setSHA1_hash(t.getSha1Hash());
-            fileInformation.setMD5_hash(t.getMd5Hash());
-            fileInformation.setPath(t.getPath());
-            fileInformation.setFileSize(t.getFileSize());
-            fileInformation.setFileExtension(t.getFileExtension());
-            return fileInformation;
+        FileInformation fileInformation = new FileInformation();
+        fileInformation.setName(t.getName());
+        fileInformation.setSHA1_hash(t.getSha1Hash());
+        fileInformation.setMD5_hash(t.getMd5Hash());
+        fileInformation.setPath(t.getPath());
+        fileInformation.setFileSize(t.getFileSize());
+        fileInformation.setFileExtension(t.getFileExtension());
+        return fileInformation;
 //        return FileInformation.builder().name(t.getName()).fileExtension(t.getFileExtension())
 //                .fileSize(t.getFileSize()).MD5_hash(t.getMd5Hash()).SHA1_hash(t.getSha1Hash()).path(t.getPath()).build();
 
     }
 
-    public List<FileInformation> retrieveFileInformation() {
+    public List<FileInformation> retrieveFileInformation() throws RemoteException {
         return fileRepository.findAll().stream().map(this::mapEntityToModel).collect(Collectors.toList());
     }
 
-    public List<FileInformation> filterFileInfo(String name, String md5, String sha1, String bytes) {
+    public List<FileInformation> filterFileInfo(String name, String md5, String sha1, String bytes) throws RemoteException {
         Set<FileInformation> results = new HashSet<>();
 //        if (!StringUtils.isEmpty(md5)){
 //            results.addAll(fileRepository.findAllByMd5Hash(md5).stream().map(this::mapEntityToModel).collect(Collectors.toList()));
